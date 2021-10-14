@@ -1,17 +1,16 @@
 class Solution {
 public:
     int findTheWinner(int n, int k) {
-        vector<bool> f(n, true);
-        int i = 0, cnt = n;
-        while(cnt > 1){
-            for(int j = 0; j < k; j++, i++){
-                while(!f[i%n])
-                    i++;
-            }
-            f[(i-1)%n] = false;
-            cnt--;
+        vector<int>a(n);
+        for(int i = 0; i<n; i++)
+            a[i] = i+1;
+        int pos = k-1;
+        int i = 0;
+        while(--n){
+            //cout<<pos<<endl;
+            a.erase(a.begin()+pos);
+            pos = (pos + k-1)% n;
         }
-        for(i = 0; !f[i]; i++);
-        return i+1;
+        return a[0];
     }
 };
