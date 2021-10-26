@@ -11,9 +11,6 @@
  */
 class Solution {
 public:
-    
-    
-    
     TreeNode* invertTree(TreeNode* root) {
         if(root){
             invertTree(root->left);
