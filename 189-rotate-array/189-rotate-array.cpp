@@ -1,21 +1,12 @@
 class Solution {
 public:
     void rotate(vector<int>& arr, int k) {
-        // O(n) time and O(k) space
+        // O(n) time and O(1) space
         int n = arr.size();
-        if(k>n)
-            k %=n;
-        vector<int>a(n-k);
-        for(int i = 0; i<n-k; i++){
-            a[i] = arr[i];
-        }
-        int l = 0, r = n-k;
-        while(r < n){
-            swap(arr[l++], arr[r++]);
-        }
-        int st = 0;
-        for(int i = k; i<n; i++){
-            arr[i] = a[st++];
-        }
+        if(k==0 or k==n) return;
+        k %=n;
+        reverse(arr.begin(), arr.begin()+n-k);
+        reverse(arr.begin()+n-k, arr.end());
+        reverse(arr.begin(), arr.end());
     }
 };
