@@ -2,21 +2,24 @@ class Solution {
 public:
     int removeDuplicates(vector<int>& arr) {
         int n = arr.size();
-        unordered_map<int, int>map;
-        for(auto a: arr){
-            map[a]++;
-        }
-        
-        int idx = 0, ans = 0;
-        for(auto a: map){
-            int num = a.first;
-            int freq = min(2, a.second);
-            for(int i=0; i<freq; i++){
-                arr[idx++] = num;
+        int ans = 0;
+        for(int i=0; i<n; i++){
+            
+            if(i+1<n and arr[i]==arr[i+1]){
+                int st = i+2, j = i+2;
+                while(j<n and arr[j] == arr[i+1]){
+                    j++;
+                }
+                int end = j;
+                while(st != end and end < n){
+                    swap(arr[st++], arr[end++]);
+                }
+                n -= end-st;
+                i++;
                 ans++;
             }
+            ans++;
         }
-        sort(arr.begin(), arr.begin()+ans);
         return ans;
     }
 };
