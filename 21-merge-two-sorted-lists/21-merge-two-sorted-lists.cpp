@@ -10,46 +10,36 @@
  */
 class Solution {
 public:
-    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        ListNode* l3 = new ListNode(0);
-ListNode *l4;
-l4=l3;
-if(!l1)
-return l2;
-if(!l2)
-return l1;
-
-    while(l1 && l2)
-    {
-        if(l1->val < l2->val)
-        {
-            l3->next =  new ListNode(l1->val);
-            l1 = l1->next;
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if(!list1) return list2;
+        if(!list2) return list1;
+        ListNode *l3 = new ListNode(0);
+        ListNode *l4= l3;
+        //l4 = l3;
+        while(list1 and list2){
+            if(list1->val < list2->val){
+                l3->next = new ListNode(list1->val);
+                list1 = list1->next;
+            }
+            else{
+                l3->next = new ListNode(list2->val);
+                list2 = list2->next;
+            }
+            l3 = l3->next;
         }
-        else
-        {
-            l3->next = new ListNode(l2->val);
-            l2 = l2->next;
+        
+        while(list1){
+            l3->next = new ListNode(list1->val);
+            list1 = list1->next;
+            l3 = l3->next;
         }
-        l3=l3->next;
+        
+        while(list2){
+            l3->next = new ListNode(list2->val);
+            list2 = list2->next;
+            l3 = l3->next;
+        }
+        
+        return l4->next;
     }
-    
-    while(l1)
-    {
-        l3->next = new ListNode(l1->val);
-        l1 = l1->next;
-        l3=l3->next;
-
-    }
-    
-    while(l2)
-    {
-       l3->next = new ListNode(l2->val);
-       l2 = l2->next;
-       l3=l3->next;
-
-    }
-    
-    return l4->next;
-}
 };
