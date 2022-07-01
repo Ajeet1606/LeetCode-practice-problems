@@ -1,22 +1,23 @@
 class Solution {
-public:    
-    int maximumUnits(vector<vector<int>>& arr, int truckSize) {
-        sort(arr.begin(), arr.end(), sortFun);
-        int n = arr.size();
-        int ans = 0, cnt = 0;
-        for(auto a: arr){
-            if(cnt > truckSize){
+public:
+    int maximumUnits(vector<vector<int>>& boxTypes, int truckSize) {
+        vector<int>arr(1001, 0);
+        //make an array of 1000 size and every idx represents the unit given and its value shows the number of boxes it has corresponding to a unit.
+        for(auto a: boxTypes){
+            arr[a[1]] += a[0];
+        }
+        
+        int answer = 0, cnt = 0;
+        for(int i=1000; i>=0; i--){
+            if(cnt >= truckSize){
                 break;
             }
-            int x = min(truckSize-cnt, a[0]);
-            ans += x*a[1];
-            cnt+= x;
+            if(arr[i] != 0){
+                int x = min(truckSize - cnt, arr[i]); 
+                answer += x*i;
+                cnt += x;
+            }
         }
-        return ans;
-    }
-             
-             
-    static bool sortFun(vector<int>&v1, vector<int>&v2){
-        return v1[1] > v2[1];
+        return answer;
     }
 };
