@@ -15,15 +15,12 @@ class Solution
             }
             
             //backward comparison.
+            ans += candy[n-1];
             for(int i=n-2; i>=0; i--){
                 if(arr[i] > arr[i+1]){
                     //might be candy[i] > candy[i+1] cz of previous change so we'll take maximum.
                     candy[i] = max(candy[i], candy[i+1]+1);
                 }
-            }
-
-            // sum up.
-            for (int i = 0; i < n; i++){
                 ans += candy[i];
             }
 
