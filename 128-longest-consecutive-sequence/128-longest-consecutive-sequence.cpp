@@ -4,7 +4,7 @@ class Solution
         int longestConsecutive(vector<int> &arr)
         {
             unordered_set<int> s;
-            sort(arr.begin(), arr.end());
+           // sort(arr.begin(), arr.end());
             int n = arr.size();
             if (n == 0) return 0;
             int ans = 1;
