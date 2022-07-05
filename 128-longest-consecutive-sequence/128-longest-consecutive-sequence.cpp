@@ -14,17 +14,17 @@ class Solution
             }
             for (int i = 0; i < n; i++)
             {
-                int cnt = 0;
-                int num = arr[i];
-                if (s.count(num - 1) == 0)
-                {
-                    while (s.count(num) == 1)
-                    {
-                        cnt++;
-                        num++;
-                    }
-                    ans = max(ans, cnt);
+                int right = arr[i]+1;
+                int left = arr[i]-1;
+                while(s.erase(left)){
+                    left--;
                 }
+                while(s.erase(right)){
+                    right++;
+                }
+                ans = max(ans, right - left - 1);
+                if(s.empty())
+                    return ans;
             }
             return ans;
         }
