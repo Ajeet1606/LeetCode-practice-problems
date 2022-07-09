@@ -1,23 +1,24 @@
-class Solution {
-public:
-    //optimized dp
-    int maxResult(vector<int>& arr, int k) {
-        //make dp array.
-        vector<int>dp(size(arr), INT_MIN);
-        //initialise dp[0] = arr[0] and insert into multiset s. 
-        multiset<int>s({dp[0] = arr[0]});
-        // traverse arr.
-        for(int i=1; i<size(arr); i++){
-            // we need previous k nums for ith idx, so when i>k, erase i-k-1.
-            if(i>k){
-                s.erase(s.find(dp[i-k-1]));
+class Solution
+{
+    public:
+       	//optimized dp
+        int maxResult(vector<int> &arr, int k)
+        {
+           	//make dp array.
+            vector<int> dp(size(arr), INT_MIN);
+           	//initialise dp[0] = arr[0] 
+            dp[0] = arr[0];
+            deque<int> q
+            { 0 };
+           	// traverse arr.
+            for (int i = 1; i < size(arr); i++){
+                if (q.front() < i - k) q.pop_front();	// can't reach current index from index stored in q     
+                dp[i] = arr[i] + dp[q.front()];	// update max score for current index
+                while (!q.empty() && dp[q.back()] <= dp[i])	// pop indices which won't be ever chosen in the future
+                    q.pop_back();
+                q.push_back(i);	// insert current index
             }
-            //pick the largest previous number and assign dp[i]
-            dp[i] = *rbegin(s)+arr[i];
-            //insert to s.
-            s.insert(dp[i]);
+           	//last value of dp is ans.
+            return dp.back();
         }
-        //last value of dp is ans.
-        return dp.back();
-    }
 };
