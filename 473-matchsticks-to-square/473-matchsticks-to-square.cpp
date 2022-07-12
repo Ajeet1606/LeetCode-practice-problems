@@ -39,6 +39,10 @@ public:
         }
         arr.resize(4, 0);
         sort(matchsticks.begin(), matchsticks.end(), greater<int>());
+        for(auto a: matchsticks){
+            if(a > avgSide)
+                return false;
+        }
         return fun(matchsticks, 0);
     }
 };
