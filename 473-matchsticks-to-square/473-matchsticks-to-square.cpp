@@ -9,11 +9,10 @@ public:
         }
         
         for(int i=0; i<4; i++){
-            int j=i-1;
-            while(j>=0){
+            int j=i;
+            while(--j>=0){
                 if(arr[j] == arr[i])
                     break;
-                j--;
             }
             if(j != -1) continue;
             if(arr[i] <= avgSide){
