@@ -7,10 +7,7 @@ public:
         for(int i=0; i<m; i++){
             for(int j=0; j<n; j++){
                 if(grid[i][j] == 1){
-                    cout<<i<<" "<<j<<endl;
-                    int cnt = fun(grid, i, j);
-                    ans = max(ans, cnt);
-                    //cout<<cnt<<endl;
+                    ans = max(ans, fun(grid, i, j));
                 }
             }
         }
@@ -24,14 +21,10 @@ public:
         if(grid[i][j] == 1){
             cnt++;
             grid[i][j] = 0;
-            //check top
-            cnt += fun(grid, i-1, j);
-            //check bottom
-            cnt += fun(grid, i+1, j);
-            //check left
-            cnt += fun(grid, i, j-1);
-            //check right
-            cnt += fun(grid, i, j+1);
+            cnt += fun(grid, i-1, j);//check top
+            cnt += fun(grid, i+1, j);//check bottom
+            cnt += fun(grid, i, j-1);//check left
+            cnt += fun(grid, i, j+1);//check right
         }
         return cnt;
     }
