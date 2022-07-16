@@ -1,30 +1,33 @@
 class Solution {
 public:
-    int M = 1000000007;
-    int findPaths(int m, int n, int N, int r, int c) {
-        
-         vector<vector<vector<int>>> memo(N + 1, vector<vector<int>> (m + 1, vector<int> (n + 1, -1)));
-        
-        return fun(m, n, N, r, c, memo);
-    }
-    
-    
-    int fun(int m, int n, int mxMove, int r, int c, vector<vector<vector<int>>> &memo){
-        
-        if(r==m or c==n or r<0 or c<0) return 1;
-     
-        if(mxMove == 0) return 0;
-        
-        if(memo[mxMove][r][c] != -1) return memo[mxMove][r][c]%M;
-        
-        int val = 0;
-        val = (val + fun(m, n, mxMove-1, r, c-1, memo))%M;
-        val = (val + fun(m, n, mxMove-1, r-1, c, memo))%M;
-        val = (val + fun(m, n, mxMove-1, r, c+1, memo))%M;
-        val = (val + fun(m, n, mxMove-1, r+1, c, memo))%M;
-        
-        memo[mxMove][r][c] = val%M;
-        
-        return memo[mxMove][r][c]%M;
+    int findPaths(int m, int n, int N, int x, int y) {
+        const int M = 1000000007;
+        vector<vector<int>>dp(m, vector<int>(n,0));
+        //dp[i][j]dp[i][j] refers to the number of ways the position corresponding to the indices (i,j)(i,j) can be reached given some particular number of moves.
+        dp[x][y]=1;
+        int cnt = 0;
+        for(int moves=1; moves <= N; moves++){
+            vector<vector<int>>temp(m, vector<int>(n,0));
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if(i== m-1){
+                        cnt = (cnt + dp[i][j])%M;
+                    }
+                    if(j== n-1){
+                        cnt = (cnt + dp[i][j])%M;
+                    }
+                    if(i== 0){
+                        cnt = (cnt + dp[i][j])%M;
+                    }
+                    if(j== 0){
+                        cnt = (cnt + dp[i][j])%M;
+                    }
+                    temp[i][j] = (((i>0? dp[i-1][j]: 0) + (i< m-1 ? dp[i+1][j]: 0))%M + 
+                                  ((j > 0 ? dp[i][j - 1] : 0) + (j < n - 1 ? dp[i][j + 1] : 0)) % M)%M;
+                }
+            }
+            dp = temp;
+        }
+        return cnt;
     }
 };
