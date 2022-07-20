@@ -1,32 +1,24 @@
-struct Node{
-        const string &word;
-        int index;
-        Node(const string &word, int index): word(word), index(index) {}
-    };
-
-
 class Solution {
 public:
-    
-    int numMatchingSubseq(string s, vector<string>& words) {
-        vector<Node>buckets[26];
-        for(auto& word: words){
-            char startingChar = word[0];
-            buckets[startingChar - 'a'].emplace_back(word, 0);
-        }
-        
+    int numMatchingSubseq(string& s, vector<string>& words) {
         int ans = 0;
-        for(auto c: s){
-            auto currBucket = buckets[c-'a'];
-            buckets[c-'a'].clear();
-            
-            for(auto &node: currBucket){
-                ++node.index;
-                if(node.index == node.word.size())
-                    ++ans;
-                else
-                    buckets[node.word[node.index] - 'a'].push_back(node);
+        //mappings is used to store the indexes of every character in s.
+        vector<vector<int>> mappings(26); 
+        for(int i = 0; i < size(s); i++) mappings[s[i] - 'a'].push_back(i);
+        //we'll check that whether curr char of word is present in s after previous char(check by idx).
+        for(auto& word : words) {
+            bool found = true;
+            //prev is index of previous char of word.
+            for(int i = 0, prev = -1; found && i < size(word); i++) {
+                //we get a vector of indexes of curr character.
+                auto& v = mappings[word[i]-'a'];
+                // in this vector there should be any value > prev.
+                auto it = upper_bound(begin(v), end(v), prev);   
+                if(it == end(v)) found = false;
+                //update prev.
+                else prev = *it;                       
             }
+            ans += found;
         }
         return ans;
     }
