@@ -13,28 +13,31 @@ public:
     ListNode* partition(ListNode* head, int x) {
         //if list have 0 or 1 node, we don't have to do anything.
         if(!head or !head->next) return head;
-        // we'll make a new list ans, run will create it..
-        ListNode *curr = head, *ans = new ListNode(0), *run = ans;
-        //first pick smaller elements.
-        while(curr){
-            if(curr->val < x){
-                run->next = new ListNode(curr->val);
-                run = run->next;
+        //small will be a list of smaller nodes and big for bigger nodes
+        ListNode *small = new ListNode(0), *big = new ListNode(0);
+        //small_runner will create small list and big_runner will big.
+        ListNode *small_runner = small, *big_runner = big;
+        //traverse given list.
+        while(head){
+            //smaller nodes will go in small list.
+            if(head->val < x){
+                small_runner->next = head;
+                small_runner = small_runner->next;
             }
-            curr = curr->next;
-        }
-        //restart.
-        curr = head;
-        //new pick greater ones.
-        while(curr){
-            if(curr->val >= x){
-                run->next = new ListNode(curr->val);
-                run = run->next;
+            //bigger ones to big list.
+            else{
+                big_runner->next = head;
+                big_runner = big_runner->next;
             }
-            curr = curr->next;
+            //go to next.
+            head = head->next;
         }
-        //skip 0 that we made, return rest.
-        return ans->next;
+        //big will be added in the end part so it's last node will go for NULL. 
+        big_runner->next = NULL;
+        //small list is added first so it's last is connected to big and skip 0 that we created in beginning. 
+        small_runner->next = big->next;
+        //return small and skip 0 that we created in beginning. 
+        return small->next;
     }
     
 };
