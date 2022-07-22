@@ -11,29 +11,30 @@
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
+        //if list have 0 or 1 node, we don't have to do anything.
         if(!head or !head->next) return head;
-        
-        ListNode *curr = head;
-        vector<int>small, big;
+        // we'll make a new list ans, run will create it..
+        ListNode *curr = head, *ans = new ListNode(0), *run = ans;
+        //first pick smaller elements.
+        while(curr){
+            if(curr->val < x){
+                run->next = new ListNode(curr->val);
+                run = run->next;
+            }
+            curr = curr->next;
+        }
+        //restart.
+        curr = head;
+        //new pick greater ones.
         while(curr){
             if(curr->val >= x){
-                big.push_back(curr->val);
-            }
-            else{
-                small.push_back(curr->val);
+                run->next = new ListNode(curr->val);
+                run = run->next;
             }
             curr = curr->next;
         }
-        ListNode *ans = new ListNode(0);
-        curr = ans;
-        for(auto a: small){
-            curr->next = new ListNode(a);
-            curr = curr->next;
-        }
-        for(auto a: big){
-            curr->next = new ListNode(a);
-            curr = curr->next;
-        }
+        //skip 0 that we made, return rest.
         return ans->next;
     }
+    
 };
