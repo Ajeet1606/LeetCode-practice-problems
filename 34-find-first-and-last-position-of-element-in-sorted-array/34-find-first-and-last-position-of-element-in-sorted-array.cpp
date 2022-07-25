@@ -1,29 +1,32 @@
 class Solution {
 public:
-    vector<int> searchRange(vector<int>& arr, int target){
-        int n = arr.size();
-        int l=0, r=n-1, idx=-1;
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int n = nums.size();
+        if(n == 0) return {-1, -1};
+        int st = search(nums, target, 0, n-1, true);
+        int end = search(nums, target, 0, n-1, false);
+        return {st, end};
+    }
+    
+    int search(vector<int>&nums, int target, int l, int r, bool forLeft){
+        int ans = -1;
         while(l<=r){
             int mid = l + (r-l)/2;
-            if(arr[mid] == target){
-                idx = mid;
-                break;
+            if(nums[mid] == target){
+                ans = mid;
+                //we'll search more on left/right;
+                if(forLeft){
+                    r = mid-1;
+                }else{
+                    l = mid+1;
+                }
+            }else if(nums[mid] > target){
+                r = mid-1;
             }
             else{
-                arr[mid]>target? r=mid-1: l=mid+1;
+                l = mid+1;
             }
         }
-        if(idx == -1){
-            return {-1, -1};
-        }
-        int st, end, temp = idx;
-        while(temp>=0 and arr[temp] == target)
-            temp--;
-        st = temp+1;
-        temp = idx;
-        while(temp<n and arr[temp] == target)
-            temp++;
-        end = temp-1;
-        return {st, end};
+        return ans;
     }
 };
