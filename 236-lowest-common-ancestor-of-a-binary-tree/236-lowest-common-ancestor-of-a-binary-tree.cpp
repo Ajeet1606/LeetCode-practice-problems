@@ -9,28 +9,24 @@
  */
 class Solution {
 public:
-    TreeNode* ans;
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        
-        solve(root, p, q);
-        
-        return ans;
+       //base case
+        if (root == NULL || root == p || root == q) {
+            return root;
+        }
+        TreeNode* left = lowestCommonAncestor(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor(root->right, p, q);
+
+        //result
+        if(left == NULL) {
+            return right;
+        }
+        else if(right == NULL) {
+            return left;
+        }//both left and right are not null, we found our result
+        else {
+            return root;
+        }
     }
     
-    bool solve(TreeNode* root, TreeNode* p, TreeNode* q){
-        if(!root)
-            return false;
-        //check for left subtree
-        int left = solve(root->left, p, q)? 1: 0;
-        //check for right.
-        int right = solve(root->right, p, q)? 1: 0;
-        //include current node
-        int mid = (root == p or root == q)? 1: 0;
-        //if any two are true, we've got ans.
-        if(mid + left + right >= 2){
-            ans = root;
-        }
-        
-        return (mid+left+right>0);
-    }
 };
