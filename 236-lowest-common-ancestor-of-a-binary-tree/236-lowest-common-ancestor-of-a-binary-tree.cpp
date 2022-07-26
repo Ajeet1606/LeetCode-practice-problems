@@ -9,39 +9,28 @@
  */
 class Solution {
 public:
-    bool flag = false;
+    TreeNode* ans;
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        TreeNode* ans;
         
-        deque<TreeNode*>s1, s2;
-        generatePath(root, s1, p);
-        flag = false;
-        generatePath(root, s2, q);
-        auto it1 = s1.begin(), it2 = s2.begin();
-        while(it1 != s1.end() and it2 != s2.end()){
-            if(*it1 == *it2){
-                ans = *it1;
-            }else{
-                break;
-            }
-            it1++; it2++;
-        }
+        solve(root, p, q);
+        
         return ans;
     }
     
-    void generatePath(TreeNode* root, deque<TreeNode*>&s, TreeNode* x){
-        if(root){
-            //cout<<root->val<<" "<<flag<<endl;
-            if(flag) return;
-            s.push_back(root);
-            if(root == x){
-                flag = true;
-            }
-            if(!flag){
-                generatePath(root->left, s, x);
-                generatePath(root->right, s, x);
-                if(!flag) s.pop_back();
-            }
+    bool solve(TreeNode* root, TreeNode* p, TreeNode* q){
+        if(!root)
+            return false;
+        //check for left subtree
+        int left = solve(root->left, p, q)? 1: 0;
+        //check for right.
+        int right = solve(root->right, p, q)? 1: 0;
+        //include current node
+        int mid = (root == p or root == q)? 1: 0;
+        //if any two are true, we've got ans.
+        if(mid + left + right >= 2){
+            ans = root;
         }
+        
+        return (mid+left+right>0);
     }
 };
