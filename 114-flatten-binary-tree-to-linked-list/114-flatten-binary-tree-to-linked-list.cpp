@@ -13,25 +13,26 @@ class Solution {
 public:
     void flatten(TreeNode* root) {
         if(!root) return;
+        //stack to store nodes
+        stack<TreeNode*>s;
+        //add the root node first.
+        s.push(root);
         
-        //go to the left most subtree
-        flatten(root->left);
-        //go to it's right.
-        flatten(root->right);
-        //for any root if left child exists
-        if(root->left){
-            //store its right somewhere.
-            TreeNode *Right = root->right;
-            //assign left on right position.
-            root->right = root->left;
-            //null on left.
-            root->left = NULL;
-            //now the left we assigned on right, pick it's rightmost node,
-            while(root->right){
-                root = root->right;
-            }
-            //attach it to the actual right that we stored earlier.
-            root->right = Right;
+        while(!s.empty()){
+            //pick the top node.
+            TreeNode *curr = s.top();
+            s.pop();
+            //if it has right, push in stack.
+            if(curr->right)
+                s.push(curr->right);
+            //left also, if exist.
+            if(curr->left)
+                s.push(curr->left);
+            //if any exists in above condition, we assign in right of curr, we pushed left later so that it stays on top.
+            if(!s.empty())
+                curr->right = s.top();
+            //make left null.
+            curr->left = NULL;
         }
     }
 };
