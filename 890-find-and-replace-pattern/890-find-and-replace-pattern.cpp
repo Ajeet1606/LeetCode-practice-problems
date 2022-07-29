@@ -1,40 +1,35 @@
 class Solution {
 public:
+    
+    vector<int> make_pattern(string str){
+        vector<int>ans;
+        unordered_map<char, int>map;
+        int idx = 1;
+        for(auto s: str){
+            if(map.find(s) == map.end()){
+                map[s] = idx;
+                ans.push_back(idx);
+                idx++;
+            }
+            else{
+                ans.push_back(map[s]);
+            }
+        }
+        return ans;
+    }
+    
     vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
-        int len = pattern.size();
         vector<string>ans;
+        vector<int>p = make_pattern(pattern);
+        
         for(auto word: words){
-            if(len != word.size()){
+            if(word.size() != pattern.size()){
                 continue;
             }
-            unordered_set<char>uniqueChars_word, uniqueChars_pattern;
-            for(auto w: word){
-                uniqueChars_word.insert(w);
-            }
-            for(auto p: pattern){
-                uniqueChars_pattern.insert(p);
-            }
-            if(uniqueChars_word.size() != uniqueChars_pattern.size()){
-                continue;
-            }
-            unordered_map<char, char>map;
-            unordered_set<char>used_as_value;
-            int i;
-            for(i=0; i<len; i++){
-                if(map.find(word[i]) != map.end()){
-                    if(pattern[i] != map[word[i]]){
-                        break;
-                    }
-                }else{
-                    if(used_as_value.find(pattern[i]) == used_as_value.end())
-                        map[word[i]] = pattern[i];
-                    else{
-                        break;
-                    }
-                }
-            }
-            if(i == len)
+            vector<int>s = make_pattern(word);
+            if(p == s){
                 ans.push_back(word);
+            }
         }
         return ans;
     }
