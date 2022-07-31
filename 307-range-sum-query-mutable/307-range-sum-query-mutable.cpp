@@ -1,61 +1,28 @@
 class NumArray {
 public:
-    vector<int>tree, arr;
-    int n;
+    vector<int> arr;
+    int n, sum = 0;
     NumArray(vector<int>& nums) {
         this->arr = nums;
         this->n = nums.size();
-        tree.resize(n*2);
-        buildTree();
-    }
+        sum = accumulate(arr.begin(), arr.end(), 0);
+    }   
     
-    //O(n)
-    void buildTree(){
-        int j = 0;
-        for(int i=n; i<2*n; i++){
-            tree[i] = arr[j++];
-        }
-        for(int i = n-1; i>=0; i--){
-            tree[i] = tree[i*2] + tree[i*2+1];
-        }
-    }
     
     void update(int idx, int val) {
-        idx += n;
-        tree[idx] = val;
-        while(idx > 0){
-            int l = idx, r = idx;
-            if(idx & 1){
-                l = idx-1;
-            }
-            else{
-                r = idx+1;
-            }
-            
-            tree[idx/2] = tree[l] + tree[r];
-            idx /= 2;
-        }
+        sum += val - arr[idx];
+        arr[idx] = val;
     }
     
     int sumRange(int left, int right) {
-        //find leaf with value left, right
-        left += n;
-        right += n;
-        
-        int sum = 0;
-        while(left <= right){
-            if(left & 1){
-                sum += tree[left];
-                left++;
-            }
-            if(!(right&1)){
-                sum += tree[right];
-                right--;
-            }
-            left /= 2;
-            right /= 2;
+       int ans = 0;
+        if(right - left < n/2){
+            ans = accumulate(arr.begin()+left, arr.begin()+right+1, 0);
         }
-        return sum;
+        else{
+            ans = sum - accumulate(arr.begin(), arr.begin()+left, 0) - accumulate(arr.begin()+right+1, arr.end(), 0); 
+        }
+        return ans;
     }
 };
 
