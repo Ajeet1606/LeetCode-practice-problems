@@ -1,45 +1,61 @@
 class NumArray {
 public:
-    vector<int>arr, sum;
-    int len;
+    vector<int>tree, arr;
+    int n;
     NumArray(vector<int>& nums) {
         this->arr = nums;
-        int n = arr.size();
-        double root = sqrt(n);
-        cout<<root;
-        len = ceil(n/root);
-        cout<<endl<<len;
-        sum.resize(len, 0);
-        for(int i=0; i<n; i++){
-            sum[i/len] += arr[i];
+        this->n = nums.size();
+        tree.resize(n*2);
+        buildTree();
+    }
+    
+    //O(n)
+    void buildTree(){
+        int j = 0;
+        for(int i=n; i<2*n; i++){
+            tree[i] = arr[j++];
+        }
+        for(int i = n-1; i>=0; i--){
+            tree[i] = tree[i*2] + tree[i*2+1];
         }
     }
     
     void update(int idx, int val) {
-        sum[idx/len] = sum[idx/len] - arr[idx]+ val;
-        arr[idx] = val;
+        idx += n;
+        tree[idx] = val;
+        while(idx > 0){
+            int l = idx, r = idx;
+            if(idx & 1){
+                l = idx-1;
+            }
+            else{
+                r = idx+1;
+            }
+            
+            tree[idx/2] = tree[l] + tree[r];
+            idx /= 2;
+        }
     }
     
     int sumRange(int left, int right) {
-        int ans = 0;
-        int stBlock = left/len;
-        int endBlock = right/len;
-        if(stBlock == endBlock){
-            for(int i=left; i<= right; i++)
-                ans += arr[i];
+        //find leaf with value left, right
+        left += n;
+        right += n;
+        
+        int sum = 0;
+        while(left <= right){
+            if(left & 1){
+                sum += tree[left];
+                left++;
+            }
+            if(!(right&1)){
+                sum += tree[right];
+                right--;
+            }
+            left /= 2;
+            right /= 2;
         }
-        else{
-            for(int i=left; i<= (stBlock+1)*len -1; i++){
-                ans += arr[i];
-            }
-            for(int i=stBlock+1; i< endBlock; i++){
-                ans += sum[i];
-            }
-            for(int i=endBlock*len; i<= right; i++){
-                ans += arr[i];
-            }
-        }
-        return ans;
+        return sum;
     }
 };
 
