@@ -1,34 +1,15 @@
 class MyCalendar {
 public:
-    vector<pair<int, int>>arr;
-    int n;
-    MyCalendar() {
-        n = arr.size();
-    }
+    map<int, int>m;
     
     bool book(int start, int end) {
-        bool ans = true;
-        
-            for(int i=0; i<n; i++){
-                //no conflict condition
-                if(arr[i].first < end and start < arr[i].second){
-                    ans = false;
-                    break;
-                }
-            }
-        
-        
-        if(ans){
-            arr.push_back({start, end});
-            n++;
-            //sort(arr.begin(), arr.end());
+        auto it = m.upper_bound(start);
+        if(it == m.end() or it->second >= end){
+            m[end] = start;
+            return true;
         }
+        return false;
         
-        // for(auto a: arr){
-        //     cout<<a.first<<a.second<<" ";
-        // }
-        // cout<<endl;
-        return ans;
     }
 };
 
