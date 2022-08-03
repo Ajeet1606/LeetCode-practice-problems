@@ -7,31 +7,21 @@ public:
     }
     
     bool book(int start, int end) {
-        bool ans = false;
-        if(n == 0){
-            ans = true;
-        }
-        else{
-            if(end <= arr[0].first){
-                ans = true;
-            }
-            else if(start >= arr[n-1].second){
-                ans = true;
-            }
-            else{
-                for(int i=1; i<n; i++){
-                    if(start >= arr[i-1].second and end <= arr[i].first){
-                        ans = true;
-                        break;
-                    }
+        bool ans = true;
+        
+            for(int i=0; i<n; i++){
+                //no conflict condition
+                if(arr[i].first < end and start < arr[i].second){
+                    ans = false;
+                    break;
                 }
             }
-        }
+        
         
         if(ans){
             arr.push_back({start, end});
             n++;
-            sort(arr.begin(), arr.end());
+            //sort(arr.begin(), arr.end());
         }
         
         // for(auto a: arr){
