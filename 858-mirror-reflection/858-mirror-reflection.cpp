@@ -1,16 +1,16 @@
 class Solution {
 public:
     int mirrorReflection(int p, int q) {
-        while(!(p&1) and !(q&1)){
+        while(p%2==0 and q%2==0){
             p /= 2;
             q /= 2;
         }
         
-        if(!(p&1)){
+        if(p%2==0){
             return 2;
         }
         
-        if(!(q&1)){
+        if(q%2==0){
             return 0;
         }
         
