@@ -1,20 +1,6 @@
 class Solution {
 public:
     
-    void dfs(int node, vector<vector<int>>&graph, vector<bool>&visited, int &ans){
-        //here we come with non-restricted nodes only
-        //mark them as visited
-        visited[node] = true;
-        //update ans
-        ans++;
-        //go to it's connected nodes.
-        for(auto a: graph[node]){
-            if(visited[a] == false){
-                dfs(a, graph, visited, ans);
-            }
-        }
-    }
-    
     int reachableNodes(int n, vector<vector<int>>& edges, vector<int>& restricted) {
         //make adjacency list
         vector<vector<int>>graph(n);
@@ -30,7 +16,26 @@ public:
         }
         
         int ans = 0;
-        dfs(0, graph, visited ,ans);
+        
+        queue<int>q;
+        //we start from 0
+        q.push(0);
+        while(!q.empty()){
+            //pick the front node
+            int node = q.front();
+            //pop it
+            q.pop();
+            //update ans
+            ans++;
+            //mark visited
+            visited[node] = true;
+            //traverse it's connected nodes
+            for(auto a: graph[node]){
+                if(!visited[a]){
+                    q.push(a);
+                }
+            }
+        }
         return ans;
     }
 };
