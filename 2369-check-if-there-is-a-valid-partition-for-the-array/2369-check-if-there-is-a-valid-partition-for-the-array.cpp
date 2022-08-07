@@ -1,28 +1,35 @@
 class Solution {
 public:
+    
+    bool solve(int i, vector<int>&dp, vector<int>&arr, int &n){
+        //if we reach end return true
+        if(i == n) return true;
+        //already calculated, return
+        if(dp[i] != -1) return dp[i];
+        
+        
+        //2 size subarray exist
+        if(i+1 < n and arr[i] == arr[i+1]){
+            if(solve(i+2, dp, arr, n))  return true;
+            //3 size subarray
+            if(i+2 < n and arr[i] == arr[i+2])
+                if(solve(i+3, dp, arr, n))  return true;
+        }
+        //3 size subarray
+        if(i+2 < n and arr[i] == arr[i+1]-1 and arr[i] == arr[i+2]-2){
+            if(solve(i+3, dp, arr, n))
+                return true;
+        }
+        //nothing found, ans false
+        return dp[i] = false;
+    }
+    
     bool validPartition(vector<int>& arr) {
         int n = arr.size();
         //store results
-        vector<bool>dp(n+1, false);
+        vector<int>dp(n, -1);
         
-        dp[0] = true;
-        for(int i=2; i<=n; i++){
-            //if prev 2 elements exist, check condition
-            if(i>=2){
-                if(arr[i-1] == arr[i-2]){
-                    dp[i] = dp[i] or dp[i-2];
-                }
-            }
-            //if prev 3 exist check this too.
-            if(i>=3){
-                if(arr[i-1] == arr[i-2] and arr[i-2] == arr[i-3]){
-                    dp[i] = dp[i] or dp[i-3];
-                }
-                else if(arr[i-1] == arr[i-2]+1 and arr[i-2] == arr[i-3]+1){
-                    dp[i] = dp[i] or dp[i-3];
-                }
-            }
-        }
-        return dp[n];
+        return solve(0, dp, arr, n);
+       
     }
 };
