@@ -12,31 +12,20 @@
 class Solution {
 public:
     
-    void fun(int l, int r, TreeNode* root, vector<int>&arr, bool left){
+    TreeNode* binary_search(vector<int>&arr, int l, int r){
         if(r<l){
-            return;
+            return NULL;
         }
         int mid = l+(r-l)/2;
-        if(left){
-            root->left = new TreeNode(arr[mid]);
-            root = root->left;
-        }else{
-            root->right = new TreeNode(arr[mid]);
-            root = root->right;
-        }
-        fun(l, mid-1, root, arr, true);
-        fun(mid+1, r, root, arr, false);
+        TreeNode* root = new TreeNode(arr[mid]);
+        root->left = binary_search(arr, l, mid-1);
+        root->right = binary_search(arr, mid+1, r);
+        
+        return root;
     }
     
     
     TreeNode* sortedArrayToBST(vector<int>& arr) {
-        int n = arr.size();
-        int l = 0, r = n-1, mid = n/2;
-        
-        TreeNode *root = new TreeNode(arr[mid]);
-        cout<<root->val;
-        fun(l, mid-1, root, arr, true);
-        fun(mid+1, r, root, arr, false);
-        return root;
+        return binary_search(arr, 0, arr.size() - 1);
     }
 };
