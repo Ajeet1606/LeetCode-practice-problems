@@ -1,35 +1,23 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
-    vector<int>arr;
-    void makeArray(TreeNode *root){
-        if(root != NULL){
-            makeArray(root->left);
-            arr.push_back(root->val);
-            makeArray(root->right);
-        }
-    }
+    bool ans = true;
+    TreeNode *min;
     
-    bool isSorted(){
-        for(int i=1; i<arr.size(); i++){
-            if(arr[i] <= arr[i-1])
-                return false;
+    void validate(TreeNode *root){
+        if(root == NULL) return;
+        validate(root->left);
+        
+        if(min != NULL and min->val >= root->val){
+            ans = false;
+            return;
         }
-        return true;
+        
+        min = root;
+        validate(root->right);
     }
     
     bool isValidBST(TreeNode* root) {
-        makeArray(root);
-        return isSorted();
+        validate(root);
+        return ans;
     }
 };
