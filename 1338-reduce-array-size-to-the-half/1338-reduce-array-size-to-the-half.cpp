@@ -1,22 +1,27 @@
 class Solution {
 public:
     int minSetSize(vector<int>& arr) {
-        unordered_map<int, int>map;
-        for(auto &a: arr){
-            map[a]++;
+        int n = arr.size();
+        int freq[100001] = {0};
+        for(auto a: arr){
+            freq[a]++;
         }
         
-        priority_queue<int>pq;
-        for(auto [key, val]: map){
-            pq.push(val);
+        int bucket[100001] = {0};
+        for(int i=1; i<100001; i++){
+            if(freq[i])
+                bucket[freq[i]]++;
         }
         
-        int sum = 0, ans = 0, half = arr.size()/2;
-        while(sum < half and !pq.empty()){
-            sum += pq.top();
-            ans++;
-            pq.pop();
+        int ans = 0, half = n/2;
+        for(int i= 100000; half > 0; i--){
+            while(bucket[i] and half>0){
+                half -= i;
+                bucket[i]--;
+                ans++;
+            }
         }
+        
         return ans;
     }
 };
