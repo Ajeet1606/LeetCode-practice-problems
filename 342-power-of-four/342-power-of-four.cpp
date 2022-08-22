@@ -1,11 +1,15 @@
 class Solution {
 public:
     bool isPowerOfFour(int n) {
-        if(n > 1){
-            while(n % 4 == 0){
-                n /= 4;
-            }
+        
+        unordered_set<int>s;
+        s.insert(1);
+        long num = 4;
+        while(num < INT_MAX){
+            s.insert(num);
+            num *= 4;
         }
-        return n == 1;
+        
+        return s.count(n);
     }
 };
