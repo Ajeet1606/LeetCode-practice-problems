@@ -21,7 +21,8 @@ public:
         return isPalindrome(s);
     }
     
-    bool isPalindrome(string s){
+    //string taken as reference
+    bool isPalindrome(string& s){
         int l=0, r = s.length()-1;
         while(l<r){
             if(s[l] != s[r])
