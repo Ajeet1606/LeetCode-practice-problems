@@ -11,21 +11,20 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        string s = "";
+        vector<int>arr;
         while(head != NULL){
             int val = head->val;
-            char c = val+ '0';
-            s.push_back(c);
+            arr.push_back(val);
             head = head->next;
         }        
-        return isPalindrome(s);
+        return isPalindrome(arr);
     }
     
     //string taken as reference
-    bool isPalindrome(string& s){
-        int l=0, r = s.length()-1;
+    bool isPalindrome(vector<int>&arr){
+        int l=0, r = arr.size()-1;
         while(l<r){
-            if(s[l] != s[r])
+            if(arr[l] != arr[r])
                 return false;
             l++;
             r--;
