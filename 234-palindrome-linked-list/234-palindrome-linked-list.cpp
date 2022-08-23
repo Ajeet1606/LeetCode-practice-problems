@@ -11,24 +11,47 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        vector<int>arr;
-        while(head != NULL){
-            int val = head->val;
-            arr.push_back(val);
-            head = head->next;
-        }        
-        return isPalindrome(arr);
-    }
-    
-    //string taken as reference
-    bool isPalindrome(vector<int>&arr){
-        int l=0, r = arr.size()-1;
-        while(l<r){
-            if(arr[l] != arr[r])
+        if(!head or !head->next) return true;
+        
+        //reverse the half of the list
+        ListNode *reversedHalfMid = reverseHalf(findMid(head));
+        
+        //now first half & second half will be equal 
+        while(reversedHalfMid != NULL and head){
+            cout<<reversedHalfMid->val;
+            cout<<head->val;
+            if(reversedHalfMid->val != head->val)
                 return false;
-            l++;
-            r--;
+            reversedHalfMid = reversedHalfMid->next;
+            head = head->next;
         }
         return true;
+    }
+    
+    ListNode* findMid(ListNode *head){
+        if(!head or !head->next) return head;
+        ListNode *slow = head, *fast = head;
+        while(fast!=NULL and fast->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        if(fast != NULL)
+            slow = slow->next;
+        cout<<"slow"<<slow->val<<" ";
+        return slow;
+    }
+    
+    ListNode* reverseHalf(ListNode *head){
+        if(!head or !head->next) return head;
+        ListNode *prev= NULL, *next;
+        while(head){
+            next = head->next;
+            head->next = prev;
+            prev = head;
+            head = next;
+        }
+        cout<<"prev"<<prev->val<<" ";
+        return prev;
     }
 };
