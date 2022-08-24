@@ -1,16 +1,22 @@
 class Solution {
 public:
     bool isPowerOfThree(int n) {
-        if(n < 0){
+        if(n <= 0){
            return false;
         }
-        unordered_set<int>s;
-        long num = 1;
-        while(num < INT_MAX){
-            s.insert(num);
-            num *= 3;
+        vector<int>arr;
+        while(n > 0){
+            int rem = n%3;
+            arr.push_back(rem);
+            n = n/3;
         }
         
-        return s.count(n);
+        int len = arr.size();
+        if(arr[len-1] != 1) return false;
+        for(int i=0; i<len-1; i++){
+            if(arr[i] != 0)
+                return false;
+        }
+        return true;
     }
 };
