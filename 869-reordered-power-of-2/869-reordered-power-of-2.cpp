@@ -1,59 +1,24 @@
 class Solution {
 public:
-   
-    bool checkPowerOf2(int num){
-        if(num > 0 and (num & num-1) == 0)
-            return true;
-        return false;
-    }
-
     
-    void generatePermutations(vector<int>&arr, vector<bool>&taken, vector<int>&v, int n, bool &answer){
-
-        if(arr.size() == n){
-            int num = 0;
-            if(arr[0] == 0) return;
-            for(int i=0; i<n; i++){
-                num = num*10 + arr[i];
-            }
-            if(num > 0 and (num & num-1) == 0){
-                answer = true;
-            }
-            return;
-        }
-
-        for(int i=0; i<n; i++){
-            if(answer) break;
-            if(taken[i] == false){
-                arr.push_back(v[i]);
-                taken[i] = true;
-
-                generatePermutations(arr, taken, v, n, answer);
-                taken[i] = false;
-                arr.pop_back();
-            }
-        }
-    }
-    
-    void getArrayFromNum(int n, vector<int>&v){
-        while(n > 0){
-            v.push_back(n%10);
+    vector<int> countDigits(int n){
+        vector<int>arr(10);
+        while(n){
+            arr[n%10]++;
             n /= 10;
         }
+        return arr;
     }
     
-    //main function
     bool reorderedPowerOf2(int n) {
-        vector<int>v;
-        //logn complexity
-        getArrayFromNum(n, v);
+        vector<int>digits = countDigits(n);
         
-        vector<bool>taken(n, false);
-        bool answer = false;
-        vector<int>arr;
-        //!(logn)
-        generatePermutations(arr, taken, v, v.size(), answer);
+        for(int i=0, powerOf2 = 1; i<30; i++, powerOf2 <<= 1){
+            if(digits == countDigits(powerOf2))
+                return true;
+        }
         
-        return answer;
+        
+        return false;
     }
 };
