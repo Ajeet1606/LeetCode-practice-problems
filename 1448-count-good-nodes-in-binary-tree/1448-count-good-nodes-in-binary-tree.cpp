@@ -11,20 +11,9 @@
  */
 class Solution {
 public:
-    int ans = 0;
-    void solve(TreeNode *root, int max){
-        if(root == NULL) return;
-        
-        if(root->val >= max){
-            ans++;
-            max = root->val;
-        }
-        solve(root->left, max);
-        solve(root->right, max);
-    }
     
-    int goodNodes(TreeNode* root) {
-        solve(root, root->val);
-        return ans;
+    
+    int goodNodes(TreeNode* root, int val = INT_MIN) {
+        return root == NULL? 0: (val <= root->val) + goodNodes(root->left, max(root->val, val)) + goodNodes(root->right, max(root->val, val));
     }
 };
