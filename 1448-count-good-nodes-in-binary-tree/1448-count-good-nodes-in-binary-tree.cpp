@@ -13,7 +13,22 @@ class Solution {
 public:
     
     
-    int goodNodes(TreeNode* root, int val = INT_MIN) {
-        return root == NULL? 0: (val <= root->val) + goodNodes(root->left, max(root->val, val)) + goodNodes(root->right, max(root->val, val));
+    int goodNodes(TreeNode* root) {
+        if(!root) return 0;
+        queue<pair<TreeNode*, int>>q;
+        q.push({root, root->val});
+        int ans = 0;
+        while(!q.empty()){
+            TreeNode *pointer = q.front().first;
+            int max = q.front().second;
+            q.pop();
+            if(max <= pointer->val){
+                ans++;
+                max = pointer->val;
+            }
+            if(pointer->left) q.push({pointer->left, max});
+            if(pointer->right) q.push({pointer->right, max});
+        }
+        return ans;
     }
 };
