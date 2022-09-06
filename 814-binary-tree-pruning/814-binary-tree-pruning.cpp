@@ -12,21 +12,14 @@
 class Solution {
 public:
     
-    bool containsOne(TreeNode* root){
-        if(root == NULL) return false;
-        
-        bool left = containsOne(root->left);
-        bool right = containsOne(root->right);
-        
-        if(!left) root->left = NULL;
-        if(!right) root->right = NULL;
-        
-        if(root->val == 1 or left or right)
-            return true;
-        return false;
-    }
-    
     TreeNode* pruneTree(TreeNode* root) {
-        return containsOne(root) ? root: NULL;
+        if(root == NULL) return NULL;
+        
+        root->left = pruneTree(root->left);
+        root->right = pruneTree(root->right);
+        
+        if(root->val == 0 and root->left == NULL and root->right == NULL) return NULL;
+        
+        return root;
     }
 };
