@@ -11,34 +11,33 @@
  */
 class Solution {
 public:
-    
-    void preorder(TreeNode* root, string &ans){
-        if(root->val < 0){
-            ans += '-';
-        }
-        ans += to_string(abs(root->val));
-        
-        if(root->left != NULL){
-            ans += '(';
-            preorder(root->left, ans);
-            ans += ')';
-        }else{
-            if(root->right != NULL){
-                ans += '(';
+    string tree2str(TreeNode* root) {
+        stack<TreeNode*>st;
+        unordered_set<TreeNode*>set;
+        string ans = "";
+        st.push(root);
+        while(!st.empty()){
+            TreeNode* curr = st.top();
+            if(set.count(curr) == 1){
+                st.pop();
                 ans += ')';
             }
+            else{
+                set.insert(curr);
+                ans += '(';
+                if(curr->val < 0) ans += '-';
+                ans += to_string(abs(curr->val));
+                if(curr->left == NULL and curr->right != NULL)
+                    ans += "()";
+                
+                if(curr->right != NULL){
+                    st.push(curr->right);
+                }
+                if(curr->left != NULL){
+                    st.push(curr->left);
+                }
+            }
         }
-        
-        if(root->right != NULL){
-            ans += '(';
-            preorder(root->right, ans);
-            ans += ')';
-        }
-    }
-    
-    string tree2str(TreeNode* root) {
-        string ans = "";
-        preorder(root, ans);
-        return ans;
+        return ans.substr(1, ans.length()-2);
     }
 };
