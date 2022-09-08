@@ -10,21 +10,21 @@
  * };
  */
 class Solution {
-public:
-    vector<int>ans;
-    
-    void traverse(TreeNode* root){
-        if(root != NULL){
-            traverse(root->left);
-            
-            ans.push_back(root->val);
-            
-            traverse(root->right);
-        }
-    }
+public:    
     
     vector<int> inorderTraversal(TreeNode* root) {
-        traverse(root);
+        vector<int>ans;
+        stack<TreeNode*>s;
+        while(root != NULL or !s.empty()){
+            while(root != NULL){
+                s.push(root);
+                root = root->left;
+            }
+            root = s.top();
+            s.pop();
+            ans.push_back(root->val);
+            root = root->right;
+        }
         return ans;
     }
 };
