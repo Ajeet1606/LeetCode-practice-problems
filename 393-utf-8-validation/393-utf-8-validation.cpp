@@ -14,18 +14,18 @@ public:
     
     bool validUtf8(vector<int>& data) {
         int n = data.size();
-        vector<string>v(n);
+        //vector<string>v(n);
         
-        for(int i=0; i<n; i++){
-            int num = data[i];
-            v[i] = getBinary(num);
-            //cout<<v[i]<<" ";
-        }
+        // for(int i=0; i<n; i++){
+        //     int num = data[i];
+        //     v[i] = getBinary(num);
+        //     //cout<<v[i]<<" ";
+        // }
         bool flag = true;
         //check for UTF-8 validation
         for(int i=0; i<n; i++){
             //get starting string
-            string str = v[i];
+            string str = getBinary(data[i]);
             
             //find count bit chars
             int ones = 0, j=0;
@@ -37,7 +37,7 @@ public:
                 break;
             }
             while(ones > 1){
-                string s = v[++i];
+                string s = getBinary(data[++i]);
                 if(s[0] != '1' or s[1] != '0') break;
                 ones--;
             }
