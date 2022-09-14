@@ -1,27 +1,26 @@
-
 class Solution {
 public:
-    int ans = 0, mask = 0;
-    
-    void preorder(TreeNode* root){
-        //update current number in mask
-        mask = mask^(1<<root->val);
-        //check leaf node
-        if(root->left == NULL and root->right == NULL){
-            if((mask & (mask-1)) == 0) ans++;
-        }else{
-            if(root->left)  //go to left child
-                preorder(root->left);
-            if(root->right) // go to right child
-                preorder(root->right);
-        }
-        //remove current number from mask
-        mask = mask^(1<<root->val);
-    }
-    
     int pseudoPalindromicPaths (TreeNode* root) {
-        if(root == NULL) return ans;
-        preorder(root);
+        int ans = 0;
+        //node, mask
+        queue<pair<TreeNode*, int>>q;
+        
+        q.push({root, 0^(1<<root->val)});
+        while(!q.empty()){
+            auto [node, mask] = q.front();
+            q.pop();
+            
+            if(node->left == NULL and node->right == NULL){
+                //be careful on the paranthesis in below operation
+                if((mask & (mask-1)) == 0) ans++;
+            }
+            if(node->left){
+                q.push({node->left, mask^(1<<(node->left->val))});
+            }
+            if(node->right){
+                q.push({node->right, mask^(1<<(node->right->val))});
+            }
+        }
         return ans;
     }
 };
