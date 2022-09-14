@@ -1,34 +1,27 @@
 
 class Solution {
 public:
-    vector<int>arr;
-    int ans = 0;
+    int ans = 0, mask = 0;
     
-    void inorder(TreeNode* root){
-        arr[root->val]++;
+    void preorder(TreeNode* root){
+        //update current number in mask
+        mask = mask^(1<<root->val);
+        //check leaf node
         if(root->left == NULL and root->right == NULL){
-            //check permutation
-            int ones = 0;
-            bool flag = true;
-            for(int i=1; i<10 and ones < 2; i++){
-                if(arr[i] % 2 != 0){
-                    ones++;
-                }
-            }
-            if(ones < 2) ans++;
+            if((mask & (mask-1)) == 0) ans++;
         }else{
-            if(root->left)
-                inorder(root->left);
-            if(root->right)
-                inorder(root->right);
+            if(root->left)  //go to left child
+                preorder(root->left);
+            if(root->right) // go to right child
+                preorder(root->right);
         }
-        arr[root->val]--;
+        //remove current number from mask
+        mask = mask^(1<<root->val);
     }
     
     int pseudoPalindromicPaths (TreeNode* root) {
         if(root == NULL) return ans;
-        arr.resize(10, 0);
-        inorder(root);
+        preorder(root);
         return ans;
     }
 };
