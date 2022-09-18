@@ -8,18 +8,15 @@ public:
         int l = 0, r = n-1;
         int leftMx = 0, rightMx = 0;
         
-        while(l <= r){
-            if(height[l] <= height[r]){
-                if(height[l] > leftMx)
-                    leftMx = height[l];
-                else
-                    ans += leftMx - height[l];
+        while(l < r){
+            leftMx = max(leftMx, height[l]);
+            rightMx = max(rightMx, height[r]);
+            
+            if(leftMx < rightMx){
+                ans += leftMx - height[l];
                 l++;
             }else{
-                if(height[r] >= rightMx)
-                    rightMx = height[r];
-                else
-                    ans += rightMx - height[r];
+                ans += rightMx - height[r];
                 r--;
             }
         }
