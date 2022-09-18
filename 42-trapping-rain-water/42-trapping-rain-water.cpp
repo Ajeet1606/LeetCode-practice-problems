@@ -1,4 +1,4 @@
-//Brute force O(n^2) and O(1)
+//Better approach O(n) and O(n)
 class Solution {
 public:
     int trap(vector<int>& height) {
@@ -14,13 +14,8 @@ public:
         for(int i=n-2; i>=0; i--)
             suffix[i] = max(suffix[i+1], height[i]);
         
-        for(int i=0; i<n; i++){
-            //find left max
-            int lmx = prefix[i];
-            //find right max
-            int rmx = suffix[i];
-            
-            ans += min(lmx, rmx) - height[i];
+        for(int i=0; i<n; i++){            
+            ans += min(prefix[i], suffix[i]) - height[i];
         }
         
         return ans;
