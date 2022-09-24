@@ -1,28 +1,42 @@
-
 class Solution {
 public:
     vector<vector<int>>ans;
     
-    void inorder(TreeNode* root, vector<int>&v, int& sum, int& targetSum){
-        if(root == NULL) return;
-        //operate on root
-        sum += root->val;
-        v.push_back(root->val);
-        if(sum == targetSum and root->left == NULL and root->right == NULL){
-            ans.push_back(v);
-        }else{
-            inorder(root->left, v, sum, targetSum);
+    void BFS(TreeNode* root, int& targetSum){
+                //Current node,   sum,  path
+        queue<pair<TreeNode*, pair<int, vector<int>>>>q;
+        q.push({root, {root->val, {root->val}}});
+        
+        while(!q.empty()){
+            TreeNode* curr = q.front().first;
+            int sum = q.front().second.first;
+            vector<int>path = q.front().second.second;
+            q.pop();
             
-            inorder(root->right, v, sum, targetSum);
+            if(!curr->left and !curr->right and sum == targetSum){
+                ans.push_back(path);
+            }
+            
+            if(curr->left){
+                vector<int>left = path;
+                left.push_back(curr->left->val);
+                q.push({curr->left, {sum+curr->left->val, left}});
+            }
+                       
+            if(curr->right){
+                vector<int>right = path;
+                right.push_back(curr->right->val);
+                q.push({curr->right, {sum + curr->right->val, right}});
+            }
         }
-        v.pop_back();
-        sum -= root->val;
+        
     }
     
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
-        vector<int>v;
-        int sum = 0;
-        inorder(root, v, sum, targetSum);
+        if(!root) return {};
+        
+        BFS(root, targetSum);
+        
         return ans;
     }
 };
