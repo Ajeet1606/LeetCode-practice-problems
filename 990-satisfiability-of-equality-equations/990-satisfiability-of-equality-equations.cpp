@@ -8,7 +8,8 @@ public:
     int findParent(int x){
         //if node is parent of itself, return.
         //else check for the top most parent.
-        return parent[x] == x? x: findParent(parent[x]);
+        //do path compression by assigning the result. 
+        return parent[x] = parent[x] == x? x: findParent(parent[x]);
     }
     
     bool equationsPossible(vector<string>& equations) {
