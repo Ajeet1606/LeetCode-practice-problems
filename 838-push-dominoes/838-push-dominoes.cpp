@@ -2,52 +2,39 @@ class Solution {
 public:
     string pushDominoes(string str) {
         int n= str.length();
-        
-        int last;
-        //clear ....L in starting
+        //adding 'L' and 'R' to corners to make it easier
+        str = 'L' + str + 'R';
+        //last will denote the position of L/R we had last time
+        int last = 0;
         int i=0, j, k; 
-        while(i<n and str[i] == '.') i++;
-        if(i>=n) return str;
-        last = i;
-        if(str[i] == 'L'){
-            j = i-1;
-            while(j>=0)
-                str[j--] = 'L';
-        }
-        
-        //clear R.... in end
-        i = n-1;
-        while(i>=0 and str[i] == '.') i--;
-        if(str[i] == 'R'){
-            j = i+1;
-            while(j<n)
-                str[j++] = 'R';
-        }
         
         i = last+1;
         int curr;
-        while(i<n){
-            if(str[i] == '.'){
+        while(i<n+2){
+            if(str[i] == '.'){  //skip '.'
                 i++; 
                 continue;
             }
+            //now we've to operate on last to curr
             curr = i;
             j = last+1, k = curr -1;
+            //both are equal, fill the same 
             if(str[last] == str[curr]){
                 while(j < curr)
                     str[j++] = str[curr];
             }
+            //R...L combination 
             else if(str[last] == 'R' and str[curr] == 'L'){
                 while(j<k){
                     str[j++] = str[last];
                     str[k--] = str[curr];
                 }
             }
-            
+            //update last
             last = curr;
             i++;
         }
-        
-        return str;
+        //skip 1 and n+1 index.
+        return str.substr(1, n);
     }
 };
