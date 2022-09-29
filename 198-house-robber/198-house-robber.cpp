@@ -1,22 +1,21 @@
-//Tabulation
+//Space optimized
 class Solution {
 public:    
     
     int rob(vector<int>& arr) {
         int n = arr.size();
-        vector<int>dp(n, 0);
-        dp[0] = arr[0];
+        int prev2 = 0, prev = arr[0];
         
         for(int i=1; i<n; i++){
-            int take = arr[i];
-            if(i>1) take += dp[i-2];
+            int take = arr[i] + prev2;
             
-            int skip = dp[i-1];
+            int skip = prev;
             
-            dp[i] = max(take, skip);
-            cout<<dp[i];
+            int curr = max(take, skip);
+            prev2 = prev;
+            prev = curr;
         }    
         
-        return dp[n-1];
+        return prev;
     }
 };
