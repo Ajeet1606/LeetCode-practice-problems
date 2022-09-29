@@ -1,22 +1,19 @@
 class Solution {
 public:
+    //Binary Search + 2 pointer
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        //0 to k size
         int n = arr.size();
-                        //distance, number
-        priority_queue<pair<int, int>>pq;
-        for(int i=0; i<n; i++){
-            pq.push({abs(arr[i] - x), arr[i]});
-            if(pq.size() > k)
-                pq.pop();
+        int r = lower_bound(arr.begin(), arr.end(), x) - arr.begin();
+        int l = r-1;
+        
+        while(k--){
+            if(r >= n or l>=0 and abs(x-arr[l] <= abs(x-arr[r])))
+                l--;
+            else
+                r++;
         }
         
-        vector<int>ans;
-        while(!pq.empty()){
-            ans.push_back(pq.top().second);
-            pq.pop();
-        }
-        
-        sort(ans.begin(), ans.end());
-        return ans;
+        return vector<int>(arr.begin()+l+1, arr.begin()+r);
     }
 };
