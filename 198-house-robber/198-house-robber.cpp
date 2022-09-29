@@ -1,22 +1,22 @@
-//Recusrion
-
+//Tabulation
 class Solution {
-public:
-    vector<int>dp;
-    int fun(int idx, vector<int>&arr){
-        if(idx == 0) return arr[0];
-        if(idx < 0) return 0;
-        if(dp[idx] != -1) return dp[idx];
-        
-        int pick = arr[idx] + fun(idx-2, arr);
-        int skip = fun(idx-1, arr);
-        
-        return dp[idx] = max(pick, skip);
-    }
+public:    
     
     int rob(vector<int>& arr) {
         int n = arr.size();
-        dp.resize(n, -1);
-        return fun(n-1, arr);
+        vector<int>dp(n, 0);
+        dp[0] = arr[0];
+        
+        for(int i=1; i<n; i++){
+            int take = arr[i];
+            if(i>1) take += dp[i-2];
+            
+            int skip = dp[i-1];
+            
+            dp[i] = max(take, skip);
+            cout<<dp[i];
+        }    
+        
+        return dp[n-1];
     }
 };
