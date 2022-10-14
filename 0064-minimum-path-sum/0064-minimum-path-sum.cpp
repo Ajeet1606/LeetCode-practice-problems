@@ -1,29 +1,35 @@
 //Recursion
-class Solution {
-public:
-    
-    //------------------------------Memoization--------------------------------------------
-//					   O(rc) and O(rc + path length)
+class Solution
+{
+    public:
 
-int fun(int i, int j, vector<vector<int>>&grid, vector<vector<int>>&dp) {
-	//Base Case
-	if (i == 0 and j == 0) return grid[0][0];
-	if (i < 0 or j < 0) return 1e9;
+       	//------------------------------Tabulation--------------------------
+       	//					   O(rc) and O(rc)
 
-	//already calculated
-	if(dp[i][j] != -1) return dp[i][j];
+        int minPathSum(vector<vector < int>> &grid)
+        {
+            int rows = grid.size(), cols = grid[0].size();
+            vector<vector < int>> dp(rows, vector<int> (cols, 0));
 
-	//let's find out
-	int up = fun(i-1, j, grid, dp);	//go up
-	int left = fun(i, j-1, grid, dp);	//go left
+            for (int i = 0; i < rows; ++i)
+            {
+                for (int j = 0; j < cols; ++j)
+                {
+                    if (i == 0 and j == 0) dp[i][j] = grid[0][0];
+                    else
+                    {
+                        int up = 1e9;
+                        if (i > 0)
+                            up = dp[i - 1][j];
+                        int left = 1e9;
+                        if (j > 0)
+                            left = dp[i][j - 1];
 
-	//save and return
-	return dp[i][j] = grid[i][j] + min(up, left);
-}
-    
-    int minPathSum(vector<vector<int>>& grid) {
-        int rows = grid.size(), cols = grid[0].size();
-        vector<vector<int>>dp(rows, vector<int>(cols, -1));
-        return fun(rows-1, cols-1, grid, dp);
-    }
+                        dp[i][j] = grid[i][j] + min(up, left);
+                    }
+                }
+            }
+
+            return dp[rows - 1][cols - 1];
+        }
 };
