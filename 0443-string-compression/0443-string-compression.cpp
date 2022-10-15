@@ -2,9 +2,10 @@ class Solution {
 public:
     int compress(vector<char>& chars) {
       
-        vector<char>ch;
+        int idx = 0;
         for(int i=0; i<chars.size();){
-            ch.push_back(chars[i]);
+            char curr = chars[i];
+            chars[idx++] = curr;
             //count consecutive chars
             int cnt = 1, j = i+1;
             while(j < chars.size() and chars[j] == chars[i]){
@@ -16,11 +17,10 @@ public:
             j = 0;
             string s = to_string(cnt);
             while(j < s.length()){
-                ch.push_back(s[j++]);
+                chars[idx++] = s[j++];
             }
-            
         }
-        chars = ch;
-        return ch.size();
+        chars.resize(idx);
+        return chars.size();
     }
 };
