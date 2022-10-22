@@ -15,7 +15,7 @@ public:
         int formed = 0;
         unordered_map<char, int>cur_window;
         
-        int arr[3] = {-1, 0, 0};
+        int arr[2] = {-1, 0};
         while(r < m){
             char cur = s[r];
             cur_window[cur]++;
@@ -27,7 +27,6 @@ public:
                 if(arr[0] == -1 or r-l+1 < arr[0]){
                     arr[0] = r-l+1;
                     arr[1] = l;
-                    arr[2] = r;
                 }
                 
                 cur_window[cur]--;
