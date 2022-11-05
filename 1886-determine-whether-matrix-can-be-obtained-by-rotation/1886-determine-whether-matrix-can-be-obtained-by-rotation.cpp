@@ -1,17 +1,32 @@
 class Solution {
 public:
     bool findRotation(vector<vector<int>>& mat, vector<vector<int>>& target) {
-        vector<bool>c(4, true);
-        int n = mat.size();
-        for(int i=0; i<n; ++i){
-            for(int j=0; j<n; ++j){
-                if(mat[i][j] != target[i][j]) c[0] = false;
-                if(mat[i][j] != target[j][n-i-1]) c[1] = false;
-                if(mat[i][j] != target[n-i-1][n-j-1]) c[2] = false;
-                if(mat[i][j] != target[n-j-1][i]) c[3] = false;
+        int m = mat.size();
+        
+//         90deg -> transpose + row reverse on matrix
+//         180deg -> transpose + row reverse on 90deg rotated matrix
+//         270deg -> transpose + row reverse on 180deg rotated mat
+        
+        if(mat == target) return true;
+        
+        int deg = 3;
+        while(deg--){
+            //transpose
+            
+            for(int i=0; i<m; i++){
+                for(int j=i; j<m; j++){
+                    swap(mat[i][j], mat[j][i]);
+                }
             }
+            
+            //row reverse
+            for(int i=0; i<m; ++i){
+                reverse(mat[i].begin(), mat[i].end());
+            }
+            
+            if(mat == target) return true;
         }
         
-        return (c[0] or c[1] or c[2] or c[3]);
+        return false;
     }
 };
