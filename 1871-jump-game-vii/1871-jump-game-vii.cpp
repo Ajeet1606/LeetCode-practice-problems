@@ -1,23 +1,22 @@
 class Solution {
 public:
-    
-    bool canReach(string s, int minJump, int maxJump) {
+    bool canReach(string s, int minJ, int maxJ) {
         int n = s.length();
+        vector<bool>dp(n, false);
+        int pre = 0;
+        dp[0] = true;
         
-        queue<int>q;
-        q.push(0);
-        int mxreach = 0;
-        while(!q.empty()){
-            int cur = q.front();
-            if(cur == n-1) return true;
-            q.pop();
-            for(int j = max(mxreach+1, cur+ minJump); j < min(cur+maxJump+1, n); ++j){
-                if(s[j] == '0'){
-                    q.push(j);
-                }
+        for(int i=1; i<n; ++i){
+            if(i >= minJ){
+                pre += dp[i - minJ];
             }
-            mxreach = cur + maxJump;
+            
+            if(i > maxJ){
+                pre -= dp[i - maxJ - 1];
+            }
+            dp[i] = (pre > 0 and s[i] == '0');
         }
-        return false;
+        
+        return dp[n-1];
     }
 };
