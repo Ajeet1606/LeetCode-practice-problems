@@ -2,25 +2,23 @@ class Solution {
 public:
     int compress(vector<char>& chars) {
       
-        int idx = 0;
+        string str;
         for(int i=0; i<chars.size();){
-            char curr = chars[i];
-            chars[idx++] = curr;
-            //count consecutive chars
-            int cnt = 1, j = i+1;
-            while(j < chars.size() and chars[j] == chars[i]){
-                j++;
+            char cur = chars[i];
+            int cnt = 0;
+            while(i < chars.size() and chars[i] == cur){
                 cnt++;
+                i++;
             }
-            i = j;
-            if(cnt == 1) continue;
-            j = 0;
-            string s = to_string(cnt);
-            while(j < s.length()){
-                chars[idx++] = s[j++];
-            }
+            str += cur;
+            if(cnt > 1)
+                str += to_string(cnt);
         }
-        chars.resize(idx);
+        chars.resize(0);
+        for(int i=0; i<str.length(); i++){
+            chars.push_back(str[i]);
+        }
+        
         return chars.size();
     }
 };
