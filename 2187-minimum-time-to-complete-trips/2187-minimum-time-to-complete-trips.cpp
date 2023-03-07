@@ -1,7 +1,7 @@
 class Solution {
 public:
     long long minimumTime(vector<int>& time, int totalTrips) {
-        long long low = 1, high = 1e18;
+        long long low = 1, high = 1LL* *min_element(time.begin(), time.end()) * totalTrips;
         int n = time.size();
         
         long long ans = 1e18;
