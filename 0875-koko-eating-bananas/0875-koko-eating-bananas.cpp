@@ -26,7 +26,7 @@ public:
         int time_needed = 0;
         // cout<<speed<<' ';
         for(int i=0; i<piles.size(); i++){
-            int time = piles[i] % speed == 0 ? piles[i]/speed: piles[i]/speed + 1;
+            int time = (piles[i] + speed -1) / speed;
             // cout<<time<<' ';
             time_needed += time;
         }
