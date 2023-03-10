@@ -10,20 +10,22 @@
  */
 class Solution {
 public:
-    vector<int>arr;
+    ListNode* headNode;
     Solution(ListNode* head) {
-        while(head != NULL){
-            arr.push_back(head->val);
-            head = head->next;
-        }
+        headNode = head;
     }
     
     int getRandom() {
-        // cout<<len<<' ';
-        int cnt = rand();
-        cnt %= arr.size();
-        
-        return arr[cnt];
+        int res, len = 1;
+        ListNode *cur = headNode;
+        while(cur){
+            if(rand() % len == 0){
+                res = cur->val;
+            }
+            len++;
+            cur = cur->next;
+        }
+        return res;
     }
 };
 
