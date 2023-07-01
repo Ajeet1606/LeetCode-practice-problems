@@ -1,6 +1,6 @@
 class Solution {
 public:
-    
+    int dir[4][2] = {{1, 0}, {-1, 0}, {0,-1}, {0, 1}};
     bool canReachToEnd(vector<vector<int>>&matrix, int row, int col, int cur_row, int cur_col){
         if(cur_row < 0 or cur_col < 0 or cur_row == row or cur_col == col) return false;
         if(matrix[cur_row][cur_col] != 0) return false;
@@ -9,12 +9,12 @@ public:
         //operate on this cell, move to all 4 directions.
         matrix[cur_row][cur_col] = -1;
         
-        bool top = canReachToEnd(matrix, row, col, cur_row-1, cur_col);
-        bool left = canReachToEnd(matrix, row, col, cur_row, cur_col-1);
-        bool right = canReachToEnd(matrix, row, col, cur_row, cur_col+1);
-        bool down = canReachToEnd(matrix, row, col, cur_row+1, cur_col);
-        
-        return top or left or right or down;
+        for(int i=0; i<4; i++){
+            int new_row = cur_row + dir[i][0];
+            int new_col = cur_col + dir[i][1];
+            if(canReachToEnd(matrix, row, col, new_row, new_col)) return true;
+        }
+        return false;
     }
     
     int latestDayToCross(int row, int col, vector<vector<int>>& cells) {
