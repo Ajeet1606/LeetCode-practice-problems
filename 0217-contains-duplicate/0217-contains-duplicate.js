@@ -4,19 +4,17 @@
  */
 
 /**
-- sort the array
-- if two consecutive elements are same, we found a duplicate.
-- else false;
+- inset the array elements in a set
+- if set size is equal to array length, no duplicates
+- else there's a duplicate.
 
-time: O(nlogn)
-space: constant.
+time: O(n)
+space: O(n).
 */
 var containsDuplicate = function(nums) {
     const len = nums.length;
     
-    nums.sort();
-    for(let idx = 0; idx < len-1; idx++){
-        if(nums[idx] == nums[idx+1]) return true;
-    }
-    return false;
+    const my_set = new Set(nums);
+    if(my_set.size == nums.length) return false;
+    return true;
 };
