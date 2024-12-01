@@ -4,23 +4,19 @@
  */
 
 /**
-- traverse array
-- check if cur element is in set,
-    - yes, found duplicate
-    - no, push element in set
-- repeat.
-- when control goes out of array, means no duplicate found.
+- sort the array
+- if two consecutive elements are same, we found a duplicate.
+- else false;
+
+time: O(nlogn)
+space: constant.
 */
 var containsDuplicate = function(nums) {
     const len = nums.length;
     
-    const is_seen = new Set();
-    for(let cur = 0; cur < len; cur++){
-        if(is_seen.has(nums[cur])){
-            return true;
-        }else{
-            is_seen.add(nums[cur]);
-        }
+    nums.sort();
+    for(let idx = 0; idx < len-1; idx++){
+        if(nums[idx] == nums[idx+1]) return true;
     }
     return false;
 };
