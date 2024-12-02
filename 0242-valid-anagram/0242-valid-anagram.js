@@ -3,37 +3,11 @@
  * @param {string} t
  * @return {boolean}
  */
-
-/*
-create a map to store freq of string1
-reduce the freq of chars by traversing string2
-if map contains anymore char with >0 freq, there's a mismatch.
-*/
-var isAnagram = function(s, t) {
-    const len1 = s.length, len2 = t.length;
+var isAnagram = function(first_string, second_string) {
+    if(first_string.length != second_string.length) return false;
     
-    const frequency_map = new Map();
-    for(let i=0; i<len1; i++){
-        if(frequency_map.has(s[i])){
-            const prevValue = frequency_map.get(s[i]);
-            frequency_map.set(s[i], prevValue+1);
-        }else{
-            frequency_map.set(s[i], 1);
-        }
-    }
+    const sorted_string1 = first_string.split('').sort().join('');
+    const sorted_string2 = second_string.split('').sort().join('');
     
-    for(let j=0; j<len2; j++){
-        if(frequency_map.has(t[j])){
-            const prevValue = frequency_map.get(t[j]);
-            frequency_map.set(t[j], prevValue-1);
-        }else{
-            return false;
-        }
-    }
-    
-    
-    for(const value of frequency_map.values()){
-        if(value != 0) return false;
-    }
-    return true;
+    return sorted_string1 == sorted_string2;
 };
