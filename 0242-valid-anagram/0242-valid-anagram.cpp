@@ -1,18 +1,19 @@
 class Solution {
 public:
+    //using map.
     bool isAnagram(string s, string t) {
         int len1 = s.length(), len2 = t.length();
         if(len1 != len2) return false;
         
-        int count[26] = {0};
+        unordered_map<int, int>mp;
         
         for(int i=0; i<len1; i++){
-            count[s[i] - 'a']++;
-            count[t[i] - 'a']--;
+            mp[s[i]]++;
+            mp[t[i]]--;
         }
         
-        for(int i=0; i<26; i++){
-            if(count[i]) return false;
+        for(const auto&pair: mp){
+            if(pair.second != 0) return false;
         }
         return true;
     }
